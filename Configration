@@ -1,0 +1,34 @@
+AWS EFS:
+  Create new EFS
+      Name: Assign a name (e.g., my-efs).
+      VPC: Select your VPC.
+      Availability Zones: Choose subnets (recommended: all AZs for high availability).
+      
+ 2. Configure Security Groups
+
+      Create or Update Security Group:
+      Go to EC2 > Security Groups > Create security group.
+      Add an inbound rule for NFS:
+      Type: NFS (port 2049).
+      Protocol: TCP.
+      Source: Security group of your EC2 instances or a specific CIDR block.
+
+
+
+(1) configartion on EC2 
+
+        Create New Directory:
+           cd /home/ubuntu
+           mkdir newstorage
+           cd /home/ubuntu/newstorage
+        
+        Nfs Configration:
+           sudo vim /etc/fstab
+                   fs-0934333a2a7d94e31.efs.us-east-1.amazonaws.com:/ /home/ubuntu/newstorage nfs4 defaults,_netdev 0 0
+        
+           sudo mount -a
+           sudo systemctl daemon-reload
+           sudo systemctl restart remote-fs.target
+           
+           lsblk
+           df -h
